@@ -492,8 +492,9 @@
                 }
                 // 互斥选项禁用：Q7选E后禁用A-D，Q8选D后禁用A-C
                 if (isMulti && !selected) {
-                    if (q.id === 7 && sel.indexOf(4) > -1 && idx !== 4) disabled = true;
-                    if (q.id === 8 && sel.indexOf(3) > -1 && idx !== 3) disabled = true;
+                    var curSel = answers[currentQuestion] || [];
+                    if (q.id === 7 && curSel.indexOf(4) > -1 && idx !== 4) disabled = true;
+                    if (q.id === 8 && curSel.indexOf(3) > -1 && idx !== 3) disabled = true;
                 }
                 var cls = 'option-card' + (isMulti ? ' multi-type' : '') + (selected ? ' selected' : '') + (disabled ? ' disabled' : '');
                 html += '<div class="' + cls + '" data-idx="' + idx + '"><div class="option-indicator"></div><div class="option-content"><div class="option-label">' + opt.label + '</div><div class="option-desc">' + opt.desc + '</div></div></div>';
@@ -906,4 +907,3 @@
 </script>
 </body>
 </html>
-
