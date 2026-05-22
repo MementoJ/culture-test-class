@@ -571,7 +571,7 @@
             console.error('getLabel: optIdx is null/undefined for qIdx=' + qIdx);
             return 'A'; // 默认值
         }
-        if (!questions[qIdx] || !questions[qIdx].options[optIdx]) {
+        if (!questions[qIdx] || !questions[qIdx].options || !questions[qIdx].options[optIdx]) {
             console.error('getLabel: invalid index qIdx=' + qIdx + ', optIdx=' + optIdx);
             return 'A';
         }
