@@ -621,7 +621,7 @@
         console.log('效率得分:', ritualScore, '(Q6:', scoringRules.q6[getLabel(3, answers[3])], ', Q7:', q7Score, ', Q8:', q8Score, ', Q14:', scoringRules.q14[getLabel(11, answers[11])], ')');
         
         // 权威 (A/P): Q15+Q16+Q17, 总分0-12
-        var authorityScore = scoringRules.q15[getLabel(13, answers[13])] + scoringRules.q16[getLabel(14, answers[14])] + scoringRules.q17[getLabel(15, answers[15])];
+        var authorityScore = scoringRules.q15[getLabel(12, answers[12])] + scoringRules.q16[getLabel(13, answers[13])] + scoringRules.q17[getLabel(14, answers[14])];
         console.log('权威得分:', authorityScore);
 
         var tTend, oTend, rTend, aTend;
