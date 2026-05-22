@@ -624,52 +624,76 @@
         var authorityScore = scoringRules.q15[getLabel(12, answers[12])] + scoringRules.q16[getLabel(13, answers[13])] + scoringRules.q17[getLabel(14, answers[14])];
         console.log('权威得分:', authorityScore);
 
-        var tTend, oTend, rTend, aTend;
-        var balancedCount = 0;
+        // 计算各维度偏离中间值的程度（绝对偏离值）
+        var tMid = 12 / 2, oMid = 14 / 2, rMid = 15 / 2, aMid = 12 / 2;
+        var tDev = Math.abs(traditionScore - tMid) / tMid;   // 0~1
+        var oDev = Math.abs(openScore - oMid) / oMid;
+        var rDev = Math.abs(ritualScore - rMid) / rMid;
+        var aDev = Math.abs(authorityScore - aMid) / aMid;
 
-        // 传承vs创新 (0-12分): ≤4→T, 5-7→均衡, ≥8→I
-        if (traditionScore <= 4) tTend = 'T';
-        else if (traditionScore >= 8) tTend = 'I';
-        else { tTend = 'B'; balancedCount++; }
+        // 确定各维度倾向方向
+        var tDir = traditionScore <= 4 ? 'T' : (traditionScore >= 8 ? 'I' : 'B');
+        var oDir = openScore <= 5 ? 'L' : (openScore >= 9 ? 'G' : 'B');
+        var rDir = ritualScore <= 5 ? 'R' : (ritualScore >= 10 ? 'E' : 'B');
+        var aDir = authorityScore <= 4 ? 'A' : (authorityScore >= 8 ? 'P' : 'B');
 
-        // 开放 (0-14分): ≤5→L, 6-8→均衡, ≥9→G
-        if (openScore <= 5) oTend = 'L';
-        else if (openScore >= 9) oTend = 'G';
-        else { oTend = 'B'; balancedCount++; }
+        // 找出偏离最大的两个维度
+        var dims = [
+            { name: 'T', dir: tDir, dev: tDev, left: 'T', right: 'I' },
+            { name: 'O', dir: oDir, dev: oDev, left: 'L', right: 'G' },
+            { name: 'R', dir: rDir, dev: rDev, left: 'R', right: 'E' },
+            { name: 'A', dir: aDir, dev: aDev, left: 'A', right: 'P' }
+        ];
+        dims.sort(function(a, b) { return b.dev - a.dev; });
 
-        // 效率 (0-15分): ≤5→R, 6-9→均衡, ≥10→E
-        if (ritualScore <= 5) rTend = 'R';
-        else if (ritualScore >= 10) rTend = 'E';
-        else { rTend = 'B'; balancedCount++; }
+        var primary = dims[0];   // 主导维度
+        var secondary = dims[1]; // 辅助维度
 
-        // 权威 (0-12分): ≤4→A, 5-7→均衡, ≥8→P
-        if (authorityScore <= 4) aTend = 'A';
-        else if (authorityScore >= 8) aTend = 'P';
-        else { aTend = 'B'; balancedCount++; }
-
-        var roleKey;
-        if (balancedCount >= 2) {
+        // 判定规则：根据主导维度 + 辅助维度方向确定角色
+        var roleKey = 'default';
+        if (primary.dev < 0.15 && secondary.dev < 0.15) {
+            // 所有维度都非常均衡（极少出现）
             roleKey = 'default';
-        } else if (balancedCount === 1) {
-            // 找到均衡维度，根据得分偏向决定倾向
-            var finalT = tTend, finalO = oTend, finalR = rTend, finalA = aTend;
-            if (tTend === 'B') {
-                finalT = traditionScore <= 6 ? 'T' : 'I';
-            }
-            if (oTend === 'B') {
-                finalO = openScore <= 7 ? 'L' : 'G';
-            }
-            if (rTend === 'B') {
-                finalR = ritualScore <= 7 ? 'R' : 'E';
-            }
-            if (aTend === 'B') {
-                finalA = authorityScore <= 6 ? 'A' : 'P';
-            }
-            var code = finalT + finalO + finalR + finalA;
-            roleKey = roleLibrary[code] ? code : 'default';
         } else {
-            var code = tTend + oTend + rTend + aTend;
-            roleKey = roleLibrary[code] ? code : 'default';
+            // 根据主导维度判定
+            var pDir = primary.dir === 'B' ? (primary.name === 'T' ? (traditionScore <= 6 ? 'T' : 'I') :
+                                              primary.name === 'O' ? (openScore <= 7 ? 'L' : 'G') :
+                                              primary.name === 'R' ? (ritualScore <= 7 ? 'R' : 'E') :
+                                              (authorityScore <= 6 ? 'A' : 'P')) : primary.dir;
+            var sDir = secondary.dir === 'B' ? (secondary.name === 'T' ? (traditionScore <= 6 ? 'T' : 'I') :
+                                                secondary.name === 'O' ? (openScore <= 7 ? 'L' : 'G') :
+                                                secondary.name === 'R' ? (ritualScore <= 7 ? 'R' : 'E') :
+                                                (authorityScore <= 6 ? 'A' : 'P')) : secondary.dir;
+
+            if (primary.name === 'T') {
+                // 主导：传承vs创新
+                if (pDir === 'I') {
+                    roleKey = (sDir === 'G' || sDir === 'P') ? 'IGEP' : 'IGEA';
+                } else {
+                    roleKey = (sDir === 'G') ? 'TGEP' : 'TLRA';
+                }
+            } else if (primary.name === 'O') {
+                // 主导：开放vs封闭
+                if (pDir === 'G') {
+                    roleKey = (sDir === 'I' || sDir === 'E') ? 'IGEP' : 'TGEP';
+                } else {
+                    roleKey = (sDir === 'T' || sDir === 'A') ? 'TLRA' : 'ILRP';
+                }
+            } else if (primary.name === 'R') {
+                // 主导：效率vs仪式
+                if (pDir === 'E') {
+                    roleKey = (sDir === 'I' || sDir === 'P') ? 'IGEA' : 'ILRP';
+                } else {
+                    roleKey = (sDir === 'T' || sDir === 'A') ? 'TLRA' : 'ILRP';
+                }
+            } else if (primary.name === 'A') {
+                // 主导：权威vs自主
+                if (pDir === 'P') {
+                    roleKey = (sDir === 'I' || sDir === 'G') ? 'IGEP' : 'IGEA';
+                } else {
+                    roleKey = (sDir === 'T' || sDir === 'R') ? 'TLRA' : 'ILRP';
+                }
+            }
         }
 
         var role = roleLibrary[roleKey];
