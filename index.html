@@ -150,7 +150,7 @@
         </div>
         <div class="progress-section" id="progressSection">
             <div class="progress-info">
-                <span id="progressText">第 1 题 / 共 13 题</span>
+                <span id="progressText">第 1 题 / 共 16 题</span>
                 <span id="progressPercent">8%</span>
             </div>
             <div class="progress-bar-bg">
@@ -236,15 +236,12 @@
             ]
         },
         {
-            id: 5, dimension: '青年吸引力', type: 'multi', maxSelect: 2,
-            text: '您觉得潮汕传统文化对年轻人的吸引力主要体现在？',
-            multiHint: '多选题，最多选择2项',
+            id: 5, dimension: '传承性', type: 'single',
+            text: '对于潮剧、潮汕歌谣等传统艺术形式，您认为应该？',
             options: [
-                { label: 'A', desc: '美食' },
-                { label: 'B', desc: '非遗表演（英歌舞、潮剧等）' },
-                { label: 'C', desc: '民俗节庆（营老爷、赛大猪等）' },
-                { label: 'D', desc: '工夫茶生活美学' },
-                { label: 'E', desc: '几乎没什么吸引力' }
+                { label: 'A', desc: '严格保持原腔原调、传统剧本和表演程式，不能改编' },
+                { label: 'B', desc: '可以改编剧本、加入新唱腔，但保留核心曲牌和表演精髓' },
+                { label: 'C', desc: '可以大胆融合流行音乐、现代舞美、多媒体技术，甚至改编成音乐剧' }
             ]
         },
         {
@@ -258,9 +255,9 @@
             ]
         },
         {
-            id: 7, dimension: '数字化', type: 'multi', maxSelect: 99,
+            id: 7, dimension: '数字化', type: 'multi', maxSelect: 3,
             text: '您是否通过以下线上方式接触过汕头文化？',
-            multiHint: '多选题，可选择多项',
+            multiHint: '多选题，最多选择3项',
             options: [
                 { label: 'A', desc: '抖音/快手短视频' },
                 { label: 'B', desc: '小红书/微博图文' },
@@ -281,55 +278,64 @@
             ]
         },
         {
-            id: 9, dimension: '文旅融合', type: 'single',
+            id: 9, dimension: '开放包容性', type: 'single',
             text: '您认为汕头目前文旅融合（如小公园、南澳岛、美食节）做得如何？',
             options: [
-                { label: 'A', desc: '很好，已经很有特色' },
-                { label: 'B', desc: '一般，还可以提升' },
+                { label: 'A', desc: '很好，已经很有特色，体验丰富' },
+                { label: 'B', desc: '一般，还有提升空间' },
                 { label: 'C', desc: '较差，商业化过度或缺乏吸引力' }
             ]
         },
         {
-            id: 10, dimension: '文旅融合', type: 'single',
+            id: 10, dimension: '开放包容性', type: 'single',
             text: '您最希望汕头开发以下哪种文创产品？',
             options: [
-                { label: 'A', desc: '英歌舞/潮剧主题的盲盒、手办' },
-                { label: 'B', desc: '潮汕美食迷你厨房玩具' },
-                { label: 'C', desc: '小公园骑楼积木模型' },
-                { label: 'D', desc: '工夫茶便携套装+数字茶谱' }
+                { label: 'A', desc: '英歌舞/潮剧主题的盲盒、手办、潮玩' },
+                { label: 'B', desc: '潮汕美食迷你厨房玩具或食玩' },
+                { label: 'C', desc: '小公园骑楼积木模型、拼图' },
+                { label: 'D', desc: '工夫茶便携套装+数字茶谱App' }
             ]
         },
         {
             id: 11, dimension: '开放包容性', type: 'single',
-            text: '外地朋友来汕头，您会优先推荐体验什么？',
+            text: '外地朋友来汕头，您会优先推荐他们体验以下哪一项？',
             options: [
                 { label: 'A', desc: '小公园骑楼+美食街' },
                 { label: 'B', desc: '看一场英歌舞或潮剧表演' },
-                { label: 'C', desc: '喝一顿完整工夫茶' },
+                { label: 'C', desc: '喝一顿完整的工夫茶' },
                 { label: 'D', desc: '参加一次民俗节庆（如营老爷）' }
             ]
         },
         {
             id: 12, dimension: '开放包容性', type: 'single',
-            text: '您认为潮汕方言、潮剧等文化内容对外地人的门槛如何？',
+            text: '您认为潮汕方言、潮剧等文化内容对外地人的理解门槛如何？',
             options: [
-                { label: 'A', desc: '很高，完全听不懂，需要简化' },
-                { label: 'B', desc: '有一定门槛，但加上字幕或解说就能懂' },
-                { label: 'C', desc: '不高，视觉和氛围就能感染人' }
+                { label: 'A', desc: '很高，完全听不懂，需要简化或配字幕、解说' },
+                { label: 'B', desc: '有一定门槛，但加上字幕或简单解说就能懂' },
+                { label: 'C', desc: '不高，视觉和氛围本身就能感染人' }
             ]
         },
         {
-            id: 13, dimension: '文明现代性', type: 'single',
-            text: '对于潮汕传统民俗活动中涉及燃放鞭炮、大规模宴请等环节，您认为：',
+            id: 13, dimension: '开放包容性', type: 'single',
+            text: '如果有外地朋友对潮汕文化表现出兴趣，您是否愿意主动为他们讲解或介绍？',
             options: [
-                { label: 'A', desc: '应完全按照传统方式进行，这是文化的重要组成部分' },
-                { label: 'B', desc: '可以在保留核心仪式的前提下，适当调整形式' },
-                { label: 'C', desc: '可以探索更现代的替代方式，只要寓意不变即可' }
+                { label: 'A', desc: '非常愿意，这是传播文化的好机会' },
+                { label: 'B', desc: '愿意，但怕自己讲不清楚' },
+                { label: 'C', desc: '不太愿意，他们不一定能懂' }
             ]
         },
         {
-            id: 14, dimension: '文明现代性', type: 'single',
-            text: '对于潮汕传统家庭或社交场合中的一些习惯（如座次安排、家庭分工等），您认为：',
+            id: 14, dimension: '效率观', type: 'single',
+            text: '对于传统民俗活动中一些大规模、高消耗的环节（如燃放大量鞭炮、举办大型宴席等），您认为？',
+            options: [
+                { label: 'A', desc: '应完全按照传统方式进行，这些环节是文化的一部分' },
+                { label: 'B', desc: '可以在保留核心仪式的前提下适当调整（例如减少数量、控制规模）' },
+                { label: 'C', desc: '可以探索更现代的替代方式（如电子鞭炮、公益比赛、文化节），只要寓意不变' }
+            ]
+        },
+        {
+            id: 15, dimension: '权威观', type: 'single',
+            text: '对于潮汕传统家庭或社交场合中的习惯（如家族聚餐座次、家庭分工角色、婚礼丧礼规矩等），您认为？',
             options: [
                 { label: 'A', desc: '应当尊重和延续这些传统习惯，它们体现了地方文化特色' },
                 { label: 'B', desc: '可以根据现代生活灵活调整，不强求一律，尊重个人选择' },
@@ -337,7 +343,25 @@
             ]
         },
         {
-            id: 15, dimension: '', type: 'text',
+            id: 16, dimension: '权威观', type: 'single',
+            text: '在家庭或宗族中，关于文化习俗的决策（如是否举办某些仪式、如何操办），您更认同以下哪种方式？',
+            options: [
+                { label: 'A', desc: '完全听从长辈或宗族权威的意见' },
+                { label: 'B', desc: '长辈主导，但可以商量讨论' },
+                { label: 'C', desc: '平等讨论，每个人（包括年轻人、女性）都可以提出想法' }
+            ]
+        },
+        {
+            id: 17, dimension: '权威观', type: 'single',
+            text: '对于潮汕文化中一些传统观念，您认为应该如何处理？',
+            options: [
+                { label: 'A', desc: '应该全面保留，这些是潮汕文化的根基' },
+                { label: 'B', desc: '可以根据时代变化有所取舍，保留适应现代社会的部分' },
+                { label: 'C', desc: '应该批判性地重新审视，主动更新与当代价值观不符的内容' }
+            ]
+        },
+        {
+            id: 18, dimension: '', type: 'text',
             text: '请您用一句话提出对汕头文化现代化的建议：'
         }
     ];
@@ -382,13 +406,21 @@
     };
 
     var scoringRules = {
-        q3: { A: 0, B: 1, C: 2 },
-        q4: { A: 0, B: 1, C: 2 },
-        q6: { A: 0, B: 1, C: 2, D: 2 },
-        q11: { A: 1, B: 0, C: 1, D: 0 },
-        q12: { A: 2, B: 1, C: 0 },
-        q13: { A: 0, B: 1, C: 2 },
-        q14: { A: 0, B: 1, C: 2 }
+        q3: { A: 0, B: 2, C: 4 },
+        q4: { A: 0, B: 2, C: 4 },
+        q5: { A: 0, B: 2, C: 4 },
+        q6: { A: 0, B: 1, C: 3, D: 3 },
+        q7: { A: 3, B: 1, C: 0, D: 0 },
+        q8: { A: 3, B: 1, C: 1, D: 0 },
+        q9: { A: 2, B: 3, C: 1 },
+        q10: { A: 3, B: 2, C: 2, D: 0 },
+        q11: { A: 3, B: 1, C: 2, D: 2 },
+        q12: { A: 3, B: 1, C: 0 },
+        q13: { A: 3, B: 1, C: 0 },
+        q14: { A: 0, B: 2, C: 4 },
+        q15: { A: 0, B: 2, C: 4 },
+        q16: { A: 0, B: 2, C: 4 },
+        q17: { A: 0, B: 2, C: 4 }
     };
 
     var currentQuestion = 0;
@@ -551,35 +583,74 @@
             }
         }
 
-        var traditionScore = scoringRules.q3[getLabel(0, answers[0])] + scoringRules.q4[getLabel(1, answers[1])];
-        var openScore = scoringRules.q11[getLabel(8, answers[8])] + scoringRules.q12[getLabel(9, answers[9])];
-        var ritualScore = scoringRules.q13[getLabel(10, answers[10])] + scoringRules.q6[getLabel(3, answers[3])];
-        var authorityScore = scoringRules.q14[getLabel(11, answers[11])];
+        // 计算各维度得分
+        // 传承 (T/I): Q3+Q4+Q5, 总分0-12
+        var traditionScore = scoringRules.q3[getLabel(0, answers[0])] + scoringRules.q4[getLabel(1, answers[1])] + scoringRules.q5[getLabel(2, answers[2])];
+        
+        // 开放 (L/G): Q9+Q10+Q11+Q12+Q13, 总分0-14
+        var openScore = scoringRules.q9[getLabel(8, answers[8])] + scoringRules.q10[getLabel(9, answers[9])] + scoringRules.q11[getLabel(10, answers[10])] + scoringRules.q12[getLabel(11, answers[11])] + scoringRules.q13[getLabel(12, answers[12])];
+        
+        // 效率 (R/E): Q6+Q7+Q8+Q14, 总分0-15
+        var q7Score = 0, q8Score = 0;
+        if (Array.isArray(answers[6])) {
+            for (var i = 0; i < answers[6].length; i++) {
+                q7Score += scoringRules.q7[getLabel(6, answers[6][i])];
+            }
+        }
+        if (Array.isArray(answers[7])) {
+            for (var i = 0; i < answers[7].length; i++) {
+                q8Score += scoringRules.q8[getLabel(7, answers[7][i])];
+            }
+        }
+        var ritualScore = scoringRules.q6[getLabel(5, answers[5])] + q7Score + q8Score + scoringRules.q14[getLabel(13, answers[13])];
+        
+        // 权威 (A/P): Q15+Q16+Q17, 总分0-12
+        var authorityScore = scoringRules.q15[getLabel(14, answers[14])] + scoringRules.q16[getLabel(15, answers[15])] + scoringRules.q17[getLabel(16, answers[16])];
 
-        var tTend, oTend, rTend, aTend, hasBalanced = false;
+        var tTend, oTend, rTend, aTend;
+        var balancedCount = 0;
 
-        // 传承vs创新 (0-4分): 严格阈值，只有恰好2分才算均衡
-        if (traditionScore <= 1) tTend = 'T';
-        else if (traditionScore >= 3) tTend = 'I';
-        else { tTend = 'B'; hasBalanced = true; }
+        // 传承vs创新 (0-12分): ≤4→T, 5-7→均衡, ≥8→I
+        if (traditionScore <= 4) tTend = 'T';
+        else if (traditionScore >= 8) tTend = 'I';
+        else { tTend = 'B'; balancedCount++; }
 
-        // 开放度 (0-3分): 不设均衡，强制二分
-        if (openScore <= 1) oTend = 'L';
-        else oTend = 'G';
+        // 开放 (0-14分): ≤5→L, 6-8→均衡, ≥9→G
+        if (openScore <= 5) oTend = 'L';
+        else if (openScore >= 9) oTend = 'G';
+        else { oTend = 'B'; balancedCount++; }
 
-        // 仪式vs效率 (0-4分): 严格阈值，只有恰好2分才算均衡
-        if (ritualScore <= 1) rTend = 'R';
-        else if (ritualScore >= 3) rTend = 'E';
-        else { rTend = 'B'; hasBalanced = true; }
+        // 效率 (0-15分): ≤5→R, 6-9→均衡, ≥10→E
+        if (ritualScore <= 5) rTend = 'R';
+        else if (ritualScore >= 10) rTend = 'E';
+        else { rTend = 'B'; balancedCount++; }
 
-        // 权威vs自主 (0-2分): 只有恰好1分才算均衡
-        if (authorityScore === 0) aTend = 'A';
-        else if (authorityScore === 2) aTend = 'P';
-        else { aTend = 'B'; hasBalanced = true; }
+        // 权威 (0-12分): ≤4→A, 5-7→均衡, ≥8→P
+        if (authorityScore <= 4) aTend = 'A';
+        else if (authorityScore >= 8) aTend = 'P';
+        else { aTend = 'B'; balancedCount++; }
 
         var roleKey;
-        if (hasBalanced) roleKey = 'default';
-        else {
+        if (balancedCount >= 2) {
+            roleKey = 'default';
+        } else if (balancedCount === 1) {
+            // 找到均衡维度，根据得分偏向决定倾向
+            var finalT = tTend, finalO = oTend, finalR = rTend, finalA = aTend;
+            if (tTend === 'B') {
+                finalT = traditionScore <= 6 ? 'T' : 'I';
+            }
+            if (oTend === 'B') {
+                finalO = openScore <= 7 ? 'L' : 'G';
+            }
+            if (rTend === 'B') {
+                finalR = ritualScore <= 7 ? 'R' : 'E';
+            }
+            if (aTend === 'B') {
+                finalA = authorityScore <= 6 ? 'A' : 'P';
+            }
+            var code = finalT + finalO + finalR + finalA;
+            roleKey = roleLibrary[code] ? code : 'default';
+        } else {
             var code = tTend + oTend + rTend + aTend;
             roleKey = roleLibrary[code] ? code : 'default';
         }
@@ -599,7 +670,7 @@
             $('resultImageContainer').style.display = 'none';
         }
 
-        renderBars(traditionScore, 4, openScore, 3, ritualScore, 4, authorityScore, 2);
+        renderBars(traditionScore, 12, openScore, 14, ritualScore, 15, authorityScore, 12);
 
         $('questionSection').classList.add('hidden');
         $('progressSection').classList.add('hidden');
