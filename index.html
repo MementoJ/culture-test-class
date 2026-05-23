@@ -825,10 +825,10 @@
         if (roleKey === 'default') {
             // 灵活适应者：显示四个维度的实际倾向
             var defaultCodes = [
-                { letter: traditionScore <= 6 ? 'T' : 'I', score: traditionScore, max: 12, dim: '传承/创新' },
-                { letter: openScore <= 7 ? 'L' : 'G', score: openScore, max: 14, dim: '本土/开放' },
-                { letter: ritualScore <= 7 ? 'R' : 'E', score: ritualScore, max: 15, dim: '仪式/效率' },
-                { letter: authorityScore <= 6 ? 'A' : 'P', score: authorityScore, max: 12, dim: '权威/自主' }
+                { letter: traditionScore <= 6 ? 'T' : 'I', dim: '传承/创新' },
+                { letter: openScore <= 7 ? 'L' : 'G', dim: '本土/开放' },
+                { letter: ritualScore <= 7 ? 'R' : 'E', dim: '仪式/效率' },
+                { letter: authorityScore <= 6 ? 'A' : 'P', dim: '权威/自主' }
             ];
             
             for (var i = 0; i < defaultCodes.length; i++) {
@@ -838,7 +838,6 @@
                 html += '<div class="code-letter" style="background:#999;">' + dc.letter + '</div>';
                 html += '<div class="code-info">';
                 html += '<div class="code-dim">' + dc.letter + '=' + info.en + '(' + info.cn + ')</div>';
-                html += '<div class="code-score">得分: ' + dc.score + '/' + dc.max + ' (' + dc.dim + ')</div>';
                 html += '</div></div>';
             }
         } else {
@@ -846,19 +845,10 @@
                 var letter = roleKey[i];
                 var info = codeMap[letter];
                 if (info) {
-                    var scores = {
-                        'T': traditionScore, 'I': traditionScore,
-                        'L': openScore, 'G': openScore,
-                        'R': ritualScore, 'E': ritualScore,
-                        'A': authorityScore, 'P': authorityScore
-                    };
-                    var score = scores[letter];
-
                     html += '<div class="dimension-code-item">';
                     html += '<div class="code-letter">' + letter + '</div>';
                     html += '<div class="code-info">';
                     html += '<div class="code-dim">' + letter + '=' + info.en + '(' + info.cn + ')</div>';
-                    html += '<div class="code-score">得分: ' + score + '/' + info.max + '</div>';
                     html += '</div></div>';
                 }
             }
