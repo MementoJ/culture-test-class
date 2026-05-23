@@ -214,13 +214,15 @@
             <div class="result-meta"><span class="meta-tag" id="resultAge">--</span><span class="meta-tag" id="resultRegion">--</span></div>
             <div class="result-actions">
                 <button class="btn-detail" id="detailBtn">📖 查看形象详情</button>
-                <button class="btn-copy" id="copyBtn">📋 复制结果</button>
+                <button class="btn-copy" id="copyBtn">📋 复制结构化数据</button>
+                <button class="btn-copy" id="copyReadableBtn" style="background:#8b6f47;">📋 复制详细报告</button>
                 <button class="btn-restart" id="restartBtn">重新测试</button>
             </div>
             <div class="result-footer">
                 <p style="margin-bottom:8px">感谢参与！</p>
-                <p style="margin-bottom:8px">1️⃣ 点击 <strong>"📋 复制结果"</strong> 按钮复制所有作答内容</p>
-                <p>2️⃣ 点击 <a href="https://wj.qq.com/s2/26751840/9bd9/" target="_blank">这里打开腾讯问卷</a>，将复制的内容粘贴到文本框中提交</p>
+                <p style="margin-bottom:8px">1️⃣ 点击 <strong>"📋 复制结构化数据"</strong> 按钮复制分析数据（用于腾讯问卷）</p>
+                <p style="margin-bottom:8px">2️⃣ 点击 <strong>"📋 复制详细报告"</strong> 按钮复制完整报告（用于查看）</p>
+                <p>3️⃣ 点击 <a href="https://wj.qq.com/s2/26751840/9bd9/" target="_blank">这里打开腾讯问卷</a>，将结构化数据粘贴到文本框中提交</p>
             </div>
         </div>
     </div>
@@ -359,11 +361,11 @@
         },
         {
             id: 14, dimension: '效率观', type: 'single',
-            text: '对于传统民俗活动中一些大规模、高消耗的环节（如燃放大量鞭炮），您认为？',
+            text: '对于传统民俗活动中一些大规模、高消耗的环节（如燃放大量鞭炮、举办大型宴席等），您认为？',
             options: [
                 { label: 'A', desc: '应完全按照传统方式进行，这些环节是文化的一部分' },
                 { label: 'B', desc: '可以在保留核心仪式的前提下适当调整（例如减少数量、控制规模）' },
-                { label: 'C', desc: '可以探索更现代的替代方式，只要寓意不变' }
+                { label: 'C', desc: '可以探索更现代的替代方式（如电子鞭炮、公益比赛、文化节），只要寓意不变' }
             ]
         },
         {
@@ -407,7 +409,7 @@
             suggestion: '尝试发起一场"数字英歌舞"实验项目，用AR技术让年轻人通过手机就能体验传统脸谱绘制。',
             image: '未来策展师.png',
             creed: '传统不是古董，是可以编程的开源系统。',
-            trait: '推崇创新，拥抱科技与跨界，认为文化必须进化。',
+            trait: '激进创新，拥抱科技与跨界，认为文化必须进化。',
             symbol: '以小公园骑楼为形象，象征历史与未来的交汇。全息投影和LED灯带代表数字化赋能，悬浮光轮体现向前的动力。'
         },
         'IGEA': {
@@ -850,25 +852,131 @@
         var age = $('resultAge').textContent;
         var region = $('resultRegion').textContent;
 
-        // 构建完整的作答结果文本
+        // 获取各维度得分（从全局变量或重新计算）
+        var traditionScore = scoringRules.q3[getLabel(0, answers[0])] + scoringRules.q4[getLabel(1, answers[1])] + scoringRules.q5[getLabel(2, answers[2])];
+        var openScore = scoringRules.q9[getLabel(6, answers[6])] + scoringRules.q10[getLabel(7, answers[7])] + scoringRules.q11[getLabel(8, answers[8])] + scoringRules.q12[getLabel(9, answers[9])] + scoringRules.q13[getLabel(10, answers[10])];
+        var q7Score = Array.isArray(answers[4]) ? answers[4].reduce(function(s, idx) { return s + scoringRules.q7[getLabel(4, idx)]; }, 0) : 0;
+        var q8Score = Array.isArray(answers[5]) ? answers[5].reduce(function(s, idx) { return s + scoringRules.q8[getLabel(5, idx)]; }, 0) : 0;
+        var ritualScore = scoringRules.q6[getLabel(3, answers[3])] + q7Score + q8Score + scoringRules.q14[getLabel(11, answers[11])];
+        var authorityScore = scoringRules.q15[getLabel(12, answers[12])] + scoringRules.q16[getLabel(13, answers[13])] + scoringRules.q17[getLabel(14, answers[14])];
+
+        // 获取角色代码
+        var roleKey = 'default';
+        var tDev = Math.abs(traditionScore - 6) / 6;
+        var oDev = Math.abs(openScore - 7) / 7;
+        var rDev = Math.abs(ritualScore - 7.5) / 7.5;
+        var aDev = Math.abs(authorityScore - 6) / 6;
+        var dims = [
+            { name: 'T', dev: tDev, dir: traditionScore <= 4 ? 'T' : (traditionScore >= 8 ? 'I' : 'B'), score: traditionScore },
+            { name: 'O', dev: oDev, dir: openScore <= 5 ? 'L' : (openScore >= 9 ? 'G' : 'B'), score: openScore },
+            { name: 'R', dev: rDev, dir: ritualScore <= 5 ? 'R' : (ritualScore >= 10 ? 'E' : 'B'), score: ritualScore },
+            { name: 'A', dev: aDev, dir: authorityScore <= 4 ? 'A' : (authorityScore >= 8 ? 'P' : 'B'), score: authorityScore }
+        ];
+        dims.sort(function(a, b) { return b.dev - a.dev; });
+        var primary = dims[0];
+        var secondary = dims[1];
+        if (primary.dev < 0.2 && secondary.dev < 0.2) {
+            roleKey = 'default';
+        } else {
+            var pDir = primary.dir === 'B' ? (primary.name === 'T' ? (traditionScore <= 6 ? 'T' : 'I') :
+                                              primary.name === 'O' ? (openScore <= 7 ? 'L' : 'G') :
+                                              primary.name === 'R' ? (ritualScore <= 7 ? 'R' : 'E') :
+                                              (authorityScore <= 6 ? 'A' : 'P')) : primary.dir;
+            var sDir = secondary.dir === 'B' ? (secondary.name === 'T' ? (traditionScore <= 6 ? 'T' : 'I') :
+                                                secondary.name === 'O' ? (openScore <= 7 ? 'L' : 'G') :
+                                                secondary.name === 'R' ? (ritualScore <= 7 ? 'R' : 'E') :
+                                                (authorityScore <= 6 ? 'A' : 'P')) : secondary.dir;
+            if (primary.name === 'T') {
+                if (pDir === 'I') {
+                    roleKey = (sDir === 'G' || sDir === 'P') ? 'IGEP' : 'IGEA';
+                } else {
+                    roleKey = (sDir === 'G') ? 'TGEP' : 'TLRA';
+                }
+            } else if (primary.name === 'O') {
+                if (pDir === 'G') {
+                    roleKey = (sDir === 'I' || sDir === 'E') ? 'IGEP' : 'TGEP';
+                } else {
+                    roleKey = (sDir === 'T' || sDir === 'A') ? 'TLRA' : 'ILRP';
+                }
+            } else if (primary.name === 'R') {
+                if (pDir === 'E') {
+                    roleKey = (sDir === 'I' || sDir === 'P') ? 'IGEA' : 'ILRP';
+                } else {
+                    roleKey = (sDir === 'T' || sDir === 'A') ? 'TLRA' : 'ILRP';
+                }
+            } else if (primary.name === 'A') {
+                if (pDir === 'P') {
+                    roleKey = (sDir === 'I' || sDir === 'G') ? 'IGEP' : 'IGEA';
+                } else {
+                    roleKey = (sDir === 'T' || sDir === 'R') ? 'TLRA' : 'ILRP';
+                }
+            }
+        }
+
+        // 构建结构化数据（用|分隔，便于CSV分析）
+        var parts = [];
+        parts.push(roleKey);                    // 角色代码
+        parts.push(traditionScore);             // 传承得分
+        parts.push(openScore);                  // 开放得分
+        parts.push(ritualScore);                // 效率得分
+        parts.push(authorityScore);             // 权威得分
+        parts.push(age);                        // Q1 年龄段
+        parts.push(region);                     // Q2 身份
+
+        // Q3-Q18 选项标签
+        for (var i = 0; i < questions.length; i++) {
+            var ans = answers[i];
+            if (questions[i].type === 'single') {
+                parts.push(ans !== null && ans !== undefined ? getLabel(i, ans) : '');
+            } else if (questions[i].type === 'multi') {
+                if (Array.isArray(ans) && ans.length > 0) {
+                    var labels = [];
+                    for (var j = 0; j < ans.length; j++) {
+                        labels.push(getLabel(i, ans[j]));
+                    }
+                    parts.push(labels.join(''));  // 多选题合并，如"AB"
+                } else {
+                    parts.push('');
+                }
+            } else if (questions[i].type === 'text') {
+                parts.push(typeof ans === 'string' ? ans.trim().replace(/\|/g, '｜') : '');
+            }
+        }
+
+        var text = parts.join('|');
+
+        // 同时提供一段可读文本作为参考
+        var readableText = '【汕头文化现代化倾向测试结果】\n';
+        readableText += '角色：' + role + '（' + roleKey + '）\n';
+        readableText += '传承得分：' + traditionScore + '，开放得分：' + openScore + '，效率得分：' + ritualScore + '，权威得分：' + authorityScore + '\n';
+        readableText += '结构化数据（请复制以下整行到腾讯问卷）：\n';
+        readableText += text;
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(showCopySuccess).catch(function() { fallbackCopy(text); });
+        } else {
+            fallbackCopy(text);
+        }
+    }
+
+    function copyReadableResult() {
+        var role = $('resultRole').textContent;
+        var desc = $('resultDesc').textContent;
+        var suggestion = $('resultSuggestion').textContent;
+        var age = $('resultAge').textContent;
+        var region = $('resultRegion').textContent;
+
         var text = '【汕头文化现代化倾向测试结果】\n';
         text += '================================\n\n';
-
-        // 角色结果
         text += '【角色结果】\n';
         text += '角色名称：' + role + '\n';
         text += '性格描述：' + desc + '\n';
         text += '改造建议：' + suggestion + '\n\n';
-
-        // 基本信息
         text += '【基本信息】\n';
         text += 'Q1. 年龄段：' + age + '\n';
         text += 'Q2. 身份：' + region + '\n\n';
-
-        // 所有题目作答详情
         text += '【答题详情】\n';
 
-        // Q3-Q15
         for (var i = 0; i < questions.length; i++) {
             var q = questions[i];
             var qNum = q.id;
@@ -907,7 +1015,7 @@
         text += '请将此内容粘贴到腾讯问卷中。';
 
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(showCopySuccess).catch(function() { fallbackCopy(text); });
+            navigator.clipboard.writeText(text).then(function() { showToast('详细结果已复制'); }).catch(function() { fallbackCopy(text); });
         } else {
             fallbackCopy(text);
         }
@@ -982,6 +1090,11 @@
     $('modalOverlay').addEventListener('click', function(e) {
         if (e.target === $('modalOverlay')) closeModal();
     });
+
+    // 绑定详细结果复制按钮（如果存在）
+    if ($('copyReadableBtn')) {
+        $('copyReadableBtn').addEventListener('click', copyReadableResult);
+    }
 
     // Init
     renderQuestion();
