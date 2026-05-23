@@ -159,7 +159,7 @@
     <div class="container">
         <div class="header">
             <h1>汕头文化现代化倾向测试</h1>
-            <div class="subtitle">本问卷匿名填写，结果仅用于思政课实践分析。感谢参与！</div>
+            <div class="subtitle">本问卷匿名填写，结果仅用于思政课实践分析。感谢参与！<br><span style="color:#c45c26;font-weight:600;">⚠️ 测试完成后，请务必点击"复制结果"并提交到腾讯问卷，您的作答数据才算有效！</span></div>
         </div>
         <div class="progress-section" id="progressSection">
             <div class="progress-info">
@@ -214,15 +214,13 @@
             <div class="result-meta"><span class="meta-tag" id="resultAge">--</span><span class="meta-tag" id="resultRegion">--</span></div>
             <div class="result-actions">
                 <button class="btn-detail" id="detailBtn">📖 查看形象详情</button>
-                <button class="btn-copy" id="copyBtn">📋 复制结构化数据</button>
-                <button class="btn-copy" id="copyReadableBtn" style="background:#8b6f47;">📋 复制详细报告</button>
+                <button class="btn-copy" id="copyBtn">📋 复制结果</button>
                 <button class="btn-restart" id="restartBtn">重新测试</button>
             </div>
             <div class="result-footer">
                 <p style="margin-bottom:8px">感谢参与！</p>
-                <p style="margin-bottom:8px">1️⃣ 点击 <strong>"📋 复制结构化数据"</strong> 按钮复制分析数据（用于腾讯问卷）</p>
-                <p style="margin-bottom:8px">2️⃣ 点击 <strong>"📋 复制详细报告"</strong> 按钮复制完整报告（用于查看）</p>
-                <p>3️⃣ 点击 <a href="https://wj.qq.com/s2/26751840/9bd9/" target="_blank">这里打开腾讯问卷</a>，将结构化数据粘贴到文本框中提交</p>
+                <p style="margin-bottom:8px">⚠️ <strong>重要提醒：</strong>请务必点击上方 <strong>"📋 复制结果"</strong> 按钮，将复制的数据粘贴到腾讯问卷中提交，您的作答数据才算有效！</p>
+                <p>点击 <a href="https://wj.qq.com/s2/26751840/9bd9/" target="_blank">这里打开腾讯问卷</a>，将结构化数据粘贴到文本框中提交</p>
             </div>
         </div>
     </div>
@@ -361,11 +359,11 @@
         },
         {
             id: 14, dimension: '效率观', type: 'single',
-            text: '对于传统民俗活动中一些大规模、高消耗的环节（如燃放大量鞭炮、举办大型宴席等），您认为？',
+            text: '对于传统民俗活动中一些大规模、高消耗的环节（如燃放大量鞭炮），您认为？',
             options: [
                 { label: 'A', desc: '应完全按照传统方式进行，这些环节是文化的一部分' },
                 { label: 'B', desc: '可以在保留核心仪式的前提下适当调整（例如减少数量、控制规模）' },
-                { label: 'C', desc: '可以探索更现代的替代方式（如电子鞭炮、公益比赛、文化节），只要寓意不变' }
+                { label: 'C', desc: '可以探索更现代的替代方式，只要寓意不变' }
             ]
         },
         {
@@ -383,7 +381,7 @@
             options: [
                 { label: 'A', desc: '完全听从长辈或宗族权威的意见' },
                 { label: 'B', desc: '长辈主导，但可以商量讨论' },
-                { label: 'C', desc: '平等讨论，每个人（包括年轻人、女性）都可以提出想法' }
+                { label: 'C', desc: '平等讨论，每个人都可以提出想法' }
             ]
         },
         {
@@ -409,7 +407,7 @@
             suggestion: '尝试发起一场"数字英歌舞"实验项目，用AR技术让年轻人通过手机就能体验传统脸谱绘制。',
             image: '未来策展师.png',
             creed: '传统不是古董，是可以编程的开源系统。',
-            trait: '激进创新，拥抱科技与跨界，认为文化必须进化。',
+            trait: '推崇创新，拥抱科技与跨界，认为文化必须进化。',
             symbol: '以小公园骑楼为形象，象征历史与未来的交汇。全息投影和LED灯带代表数字化赋能，悬浮光轮体现向前的动力。'
         },
         'IGEA': {
@@ -1091,10 +1089,7 @@
         if (e.target === $('modalOverlay')) closeModal();
     });
 
-    // 绑定详细结果复制按钮（如果存在）
-    if ($('copyReadableBtn')) {
-        $('copyReadableBtn').addEventListener('click', copyReadableResult);
-    }
+
 
     // Init
     renderQuestion();
